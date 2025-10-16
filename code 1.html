@@ -961,6 +961,19 @@
                     registerModal.style.display = 'none';
                     body.classList.remove('modal-open');
                 }
+                // Handle emtional log modal click-outside
+                if (event.target == emotionLogModal) {
+                    emotionLogModal.style.display = 'none';
+                    body.classList.remove('modal-open');
+                }
+                // Handle hotlines modal click-outside
+                if (event.target == hotlinesModal) {
+                    hotlinesModal.style.display = 'none';
+                    body.classList.remove('modal-open');
+    }
+
+            
+                
             });
             
             // Handle login form submission (demo)
@@ -1068,13 +1081,6 @@
                 body.classList.remove('modal-open');
             });
             
-            // Close emotion log modal when clicking outside of it
-            window.addEventListener('click', (event) => {
-                if (event.target == emotionLogModal) {
-                    emotionLogModal.style.display = 'none';
-                    body.classList.remove('modal-open');
-                }
-            });
             
             // Handle emotion log form submission
             emotionLogForm.addEventListener('submit', (e) => {
