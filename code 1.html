@@ -18,6 +18,7 @@
             --color-safe-zone: #FFFFFF; /* Main area background */
             --color-shadow: rgba(0, 0, 0, 0.08);
             --color-emergency: #F44336;
+            --color-input-border: #ddd;
         }
 
         /* --- Dark Mode Color Variables --- */
@@ -31,6 +32,7 @@
             --color-safe-zone: #242526;
             --color-shadow: rgba(0, 0, 0, 0.3);
             --color-emergency: #F44336;
+            --color-input-border: #444;
         }
 
         * {
@@ -45,6 +47,11 @@
             background-color: var(--color-background);
             color: var(--color-text);
             line-height: 1.6;
+        }
+        
+        /* Prevent scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
         }
 
         /* --- Navigation Bar --- */
@@ -79,10 +86,9 @@
             color: var(--color-primary);
         }
 
-        /* Login Button Styling */
         .btn-login {
             background-color: var(--color-primary);
-            color: white !important; /* Override default link color */
+            color: white !important;
             padding: 8px 20px;
             border-radius: 20px;
             font-weight: 600;
@@ -93,7 +99,6 @@
             color: white !important;
         }
         
-        /* Theme Toggle Button Styling */
         .theme-toggle-btn {
             background: none;
             border: none;
@@ -114,7 +119,7 @@
             margin: 30px auto;
             gap: 30px;
             padding: 0 20px;
-            align-items: flex-start; /* This prevents the sidebar from stretching */
+            align-items: flex-start;
         }
 
         /* --- Chatbot Area --- */
@@ -250,7 +255,7 @@
         }
         #userInput {
             flex-grow: 1;
-            border: 1px solid #ddd;
+            border: 1px solid var(--color-input-border);
             border-radius: 25px;
             padding: 12px 20px;
             resize: none;
@@ -343,7 +348,7 @@
             color: white;
             padding: 10px 20px;
             border-radius: 25px;
-            z-index: 1001;
+            z-index: 1002; /* Higher than modal */
             opacity: 0;
             animation: fadeInOut 3s forwards;
             font-size: 0.9em;
@@ -359,11 +364,133 @@
             10%, 90% { opacity: 1; transform: translate(-50%, 0); }
         }
         
+        /* --- Login/Register Modal Styles --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: var(--color-safe-zone);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 5px 20px var(--color-shadow);
+        }
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--color-text);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--color-primary);
+            text-align: center;
+        }
+        .modal input[type="email"],
+        .modal input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px 0;
+            display: inline-block;
+            border: 1px solid var(--color-input-border);
+            border-radius: 8px;
+            background-color: var(--color-background);
+            color: var(--color-text);
+        }
+        .modal button[type="submit"] {
+            width: 100%;
+            background-color: var(--color-primary);
+            color: white;
+            padding: 14px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+        }
+        .modal button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+        
+        /* --- NEW: Form Switch Link Styles --- */
+        .form-switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .form-switch a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .form-switch a:hover {
+            text-decoration: underline;
+        }
+        /* --- END OF NEW STYLES --- */
+        
+        /* --- Hotlines Modal Styles --- */
+        .hotlines-list {
+            margin-top: 20px;
+        }
+
+        .hotline-item {
+            background-color: var(--color-bot-bubble);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .hotline-item h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+
+        .phone-number {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .btn-call, .btn-text {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-call:hover, .btn-text:hover {
+            background-color: #5A8FC2;
+        }
+        
         /* --- Responsive Design --- */
         @media (max-width: 992px) {
             .container {
                 flex-direction: column;
-                align-items: stretch; /* Revert for stacked layout */
+                align-items: stretch;
             }
             .sidebar {
                 width: 100%;
@@ -391,16 +518,6 @@
             .chatbot-window {
                 height: calc(100vh - 250px);
             }
-            .chat-input-area {
-                padding: 10px;
-            }
-            #userInput {
-                padding: 10px 15px;
-            }
-            .send-btn {
-                width: 44px;
-                height: 44px;
-            }
         }
     </style>
 </head>
@@ -408,7 +525,7 @@
     <header class="navbar">
         <div class="logo">🧠 An - Emotional Shelter</div>
         <nav>
-            <a href="#" class="btn-login">Login</a>
+            <a href="#" id="login-nav-button" class="btn-login">Login</a>
             <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
                 <i class="fas fa-moon"></i>
             </button>
@@ -421,13 +538,11 @@
                 <h3>Assistant An</h3>
                 <span class="status-dot"></span>
             </div>
-
             <div class="chat-history" id="chatHistory">
                 <div class="message bot-message">
                     <p>Hello. I'm An, your listening assistant. Feel free to share anything on your mind. I'm here to support you.</p>
                 </div>
             </div>
-
             <div class="chat-input-area">
                 <textarea id="userInput" placeholder="Share your feelings here..." rows="1"></textarea>
                 <button id="sendButton" class="send-btn" aria-label="Send message">
@@ -435,12 +550,10 @@
                 </button>
             </div>
         </section>
-
         <aside class="sidebar">
             <h3>📝 Quick Journal</h3>
             <p>Log your feelings right now to better understand yourself.</p>
             <button class="btn-journal"><i class="fas fa-plus-circle"></i> Log Emotion</button>
-            
             <div class="resource-link">
                 <h4><i class="fas fa-hands-helping"></i> Need Urgent Help?</h4>
                 <p>If you are in a crisis, please seek professional help immediately.</p>
@@ -459,10 +572,92 @@
             </div>
         </div>
     </template>
+    
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <div class="form-switch">
+                <p>Don't have an account? <a href="#" id="switchToRegister">Register here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Create Account</h2>
+            <form id="register-form">
+                <label for="reg-email">Email</label>
+                <input type="email" id="reg-email" name="email" placeholder="Enter your email" required>
+                
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="password" placeholder="Choose a password" required>
+                
+                <label for="reg-confirm-password">Confirm Password</label>
+                <input type="password" id="reg-confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                
+                <button type="submit">Create Account</button>
+            </form>
+            <div class="form-switch">
+                <p>Already have an account? <a href="#" id="switchToLogin">Login here</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hotlines Modal -->
+    <div id="hotlines-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Mental Health Hotlines</h2>
+            <div class="hotlines-list">
+                <div class="hotline-item">
+                    <h4>National Suicide Prevention Lifeline</h4>
+                    <p>24/7 support for people in distress</p>
+                    <p class="phone-number">988 or 1-800-273-8255</p>
+                    <button class="btn-call" data-number="988">Call Now</button>
+                </div>
+                <div class="hotline-item">
+                    <h4>Crisis Text Line</h4>
+                    <p>Text HOME to 741741 for crisis support</p>
+                    <p class="phone-number">Text HOME to 741741</p>
+                    <button class="btn-text" data-text="HOME" data-number="741741">Text Now</button>
+                </div>
+                <div class="hotline-item">
+                    <h4>Veterans Crisis Line</h4>
+                    <p>For veterans and their loved ones</p>
+                    <p class="phone-number">988 (Press 1) or 1-800-273-8255</p>
+                    <button class="btn-call" data-number="988">Call Now</button>
+                </div>
+                <div class="hotline-item">
+                    <h4>Disaster Distress Helpline</h4>
+                    <p>Crisis counseling for people experiencing distress</p>
+                    <p class="phone-number">1-800-985-5990</p>
+                    <button class="btn-call" data-number="18009855990">Call Now</button>
+                </div>
+                <div class="hotline-item">
+                    <h4>SAMHSA's National Helpline</h4>
+                    <p>Treatment referral and information service</p>
+                    <p class="phone-number">1-800-662-4357</p>
+                    <button class="btn-call" data-number="18006624357">Call Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // DOM Elements
+            const body = document.body;
             const chatHistory = document.getElementById('chatHistory');
             const userInput = document.getElementById('userInput');
             const sendButton = document.getElementById('sendButton');
@@ -470,7 +665,6 @@
             
             // --- DARK MODE LOGIC ---
             const themeToggleButton = document.getElementById('theme-toggle');
-            const body = document.body;
             const themeIcon = themeToggleButton.querySelector('i');
 
             const applyTheme = (theme) => {
@@ -495,13 +689,137 @@
             const savedTheme = localStorage.getItem('theme') || 'light';
             applyTheme(savedTheme);
 
-            // --- FUNCTIONS ---
+            // --- LOGIN/REGISTER MODAL LOGIC ---
+            const loginModal = document.getElementById('login-modal');
+            const loginNavButton = document.getElementById('login-nav-button');
+            const closeLoginModalButton = loginModal.querySelector('.close-btn');
+            const loginForm = document.getElementById('login-form');
+
+            // NEW: Register modal elements
+            const registerModal = document.getElementById('register-modal');
+            const registerForm = document.getElementById('register-form');
+            const closeRegisterModalButton = registerModal.querySelector('.close-btn');
+            const switchToRegisterLink = document.getElementById('switchToRegister');
+            const switchToLoginLink = document.getElementById('switchToLogin');
+
+            // Open login modal when login button is clicked
+            loginNavButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'block';
+                body.classList.add('modal-open');
+            });
+
+            // Close login modal with 'X' button
+            closeLoginModalButton.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+                body.classList.remove('modal-open');
+            });
+            
+            // NEW: Close register modal with 'X' button
+            closeRegisterModalButton.addEventListener('click', () => {
+                registerModal.style.display = 'none';
+                body.classList.remove('modal-open');
+            });
+
+            // Close modals when clicking outside of them
+            window.addEventListener('click', (event) => {
+                if (event.target == loginModal) {
+                    loginModal.style.display = 'none';
+                    body.classList.remove('modal-open');
+                }
+                // NEW: Handle register modal click-outside
+                if (event.target == registerModal) {
+                    registerModal.style.display = 'none';
+                    body.classList.remove('modal-open');
+                }
+            });
+            
+            // Handle login form submission (demo)
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Login successful! (This is a demo)');
+                loginModal.style.display = 'none';
+                body.classList.remove('modal-open');
+            });
+
+            // --- NEW: REGISTER MODAL & SWITCHING LOGIC ---
+            
+            // Handle register form submission (demo)
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+                if (password !== confirmPassword) {
+                    showToast('Passwords do not match!');
+                    return; // Stop submission
+                }
+                
+                showToast('Registration successful! (This is a demo)');
+                registerModal.style.display = 'none';
+                body.classList.remove('modal-open');
+            });
+
+            // Switch from Login to Register modal
+            switchToRegisterLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'block';
+            });
+            
+            // Switch from Register to Login modal
+            switchToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'block';
+            });
+            // --- END OF NEW LOGIC ---
+
+            // --- HOTLINES MODAL LOGIC ---
+            // Get the hotlines modal
+            const hotlinesModal = document.getElementById('hotlines-modal');
+            // Get the button that opens the modal
+            const btnEmergency = document.querySelector('.btn-emergency');
+            // Get the close button for the hotlines modal
+            const closeHotlinesModalButton = hotlinesModal.querySelector('.close-btn');
+
+            // When the user clicks on the button, open the modal
+            btnEmergency.addEventListener('click', (e) => {
+                e.preventDefault();
+                hotlinesModal.style.display = 'block';
+                body.classList.add('modal-open');
+            });
+
+            // When the user clicks on the close button, close the modal
+            closeHotlinesModalButton.addEventListener('click', () => {
+                hotlinesModal.style.display = 'none';
+                body.classList.remove('modal-open');
+            });
+
+            // Handle the "Call Now" buttons
+            document.addEventListener('click', function(e) {
+                if (e.target && (e.target.classList.contains('btn-call') || e.target.classList.contains('btn-text'))) {
+                    const number = e.target.getAttribute('data-number');
+                    const isText = e.target.classList.contains('btn-text');
+                    const textMessage = isText ? e.target.getAttribute('data-text') : '';
+                    
+                    if (confirm(`Are you sure you want to ${isText ? 'text' : 'call'} this number${isText ? ' with message: ' + textMessage : ''}?`)) {
+                        // On a real device, this would initiate a call or SMS
+                        // For web demo purposes we'll just show a toast
+                        showToast(`This would initiate a ${isText ? 'text to' : 'call to'} ${number} on a mobile device`);
+                        
+                        // On a real device, you might use:
+                        // window.location.href = isText ? `sms:${number}?body=${textMessage}` : `tel:${number}`;
+                    }
+                }
+            });
+
+            // --- CHATBOT FUNCTIONS ---
             const addMessageToChat = (sender, messageContent) => {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${sender}-message`;
                 if (sender === 'bot loading') {
-                    messageDiv.classList.add('loading-message');
-                    messageDiv.classList.add('bot-message');
+                    messageDiv.classList.add('loading-message', 'bot-message');
                 }
                 messageDiv.innerHTML = messageContent;
                 chatHistory.appendChild(messageDiv);
@@ -548,11 +866,9 @@
             const handleSendMessage = () => {
                 const userText = userInput.value.trim();
                 if (userText === '') return;
-
                 addMessageToChat('user', `<p>${userText}</p>`);
                 userInput.value = '';
                 userInput.style.height = 'auto';
-
                 setTimeout(() => {
                     showTypingIndicator();
                     setTimeout(() => {
@@ -593,12 +909,8 @@
 
             document.querySelector('.btn-emergency').addEventListener('click', (e) => {
                 e.preventDefault();
-                showToast('"Urgent Support" feature will be updated soon.');
-            });
-
-            document.querySelector('.btn-login').addEventListener('click', (e) => {
-                e.preventDefault();
-                showToast('Login feature is coming soon!');
+                hotlinesModal.style.display = 'block';
+                body.classList.add('modal-open');
             });
             
             chatHistory.addEventListener('click', (e) => {
@@ -606,7 +918,6 @@
                     showToast('This exercise will be available soon. For now, please try taking a deep breath!');
                 }
             });
-
         });
     </script>
 </body>
